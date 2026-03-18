@@ -32,7 +32,7 @@ s:Ma/GAGG/DefaultColor = "Green"
 # -------------------------
 # FONTE: gama monoenergética ~ Cs-137
 # -------------------------
-s:So/Cs137/Type = "Beam"
+s:So/Cs137/Type = "Isotropic"
 s:So/Cs137/Component = "World"
 s:So/Cs137/BeamParticle = "gamma"
 d:So/Cs137/BeamEnergy = 0.662 MeV
@@ -44,9 +44,11 @@ d:So/Cs137/BeamPositionZ = -30.0 mm
 
 s:So/Cs137/BeamPositionDistribution = "Flat"
 s:So/Cs137/BeamPositionCutoffShape = "Ellipse"
-d:So/Cs137/BeamPositionCutoffX = 0.25 mm
-d:So/Cs137/BeamPositionCutoffY = 0.25 mm
-s:So/Cs137/BeamAngularDistribution = "None"
+d:So/Cs137/BeamPositionCutoffX = 3 mm
+d:So/Cs137/BeamPositionCutoffY = 3 mm
+s:So/Cs137/BeamAngularDistribution = "Gaussian"
+d:So/Cs137/BeamAngularSpreadX = 5 deg
+d:So/Cs137/BeamAngularSpreadY = 5 deg
 
 # -------------------------
 # CRISTAL GAGG 5x5x10 mm³
@@ -114,14 +116,8 @@ sv:Sc/EdepCrystalTotal/Report = 1 "Sum"
 # ATENÇÃO: isto NÃO é energia por evento.
 # Serve apenas para inspeção do depósito em passos.
 # =========================================================
-s:Sc/EdepCrystalSpectrum/Quantity = "EnergyDeposit"
-s:Sc/EdepCrystalSpectrum/Component = "Crystal"
-s:Sc/EdepCrystalSpectrum/OutputType = "csv"
-s:Sc/EdepCrystalSpectrum/IfOutputFileAlreadyExists = "Overwrite"
-
-i:Sc/EdepCrystalSpectrum/EBins = 200
-d:Sc/EdepCrystalSpectrum/EBinMin = 0.0 MeV
-d:Sc/EdepCrystalSpectrum/EBinMax = 0.7 MeV
-sc:Sc/EdepCrystalSpectrum/EBinEnergy = "PreStep"
-
-sv:Sc/EdepCrystalSpectrum/Report = 2 "Sum" "Count_in_Bin"
+# energia depositada por evento
+s:Sc/EventEdep/Quantity   = "EventEdepCrystal"
+s:Sc/EventEdep/Component  = "Crystal"
+s:Sc/EventEdep/OutputType = "ASCII"
+s:Sc/EventEdep/IfOutputFileAlreadyExists = "Overwrite"
