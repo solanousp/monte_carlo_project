@@ -1,0 +1,127 @@
+# =========================================================
+# Cs-137 + GAGG:Ce + SiPM
+# SEM ÓPTICA
+# Objetivo: obter energia depositada no cristal
+# =========================================================
+
+# -------------------------
+# CONTROLE
+# -------------------------
+i:Ts/SequenceVerbosity = 2
+b:Ts/ShowCPUTime = "True"
+b:Ts/UseQt = "False"
+
+s:Ts/OutputDirectory = "/Users/solanorigotti/Documents/TNA5763_MonteCarlo/Projeto/output"
+
+# -------------------------
+# WORLD
+# -------------------------
+s:Ge/World/Material = "G4_AIR"
+d:Ge/World/HLX = 5.0 cm
+d:Ge/World/HLY = 5.0 cm
+d:Ge/World/HLZ = 8.0 cm
+
+# -------------------------
+# MATERIAL CUSTOMIZADO: GAGG:Ce
+# -------------------------
+sv:Ma/GAGG/Components = 5 "Gadolinium" "Aluminum" "Gallium" "Oxygen" "Cerium"
+uv:Ma/GAGG/Fractions  = 5 0.369 0.082 0.184 0.355 0.010
+d:Ma/GAGG/Density = 6.63 g/cm3
+s:Ma/GAGG/DefaultColor = "Green"
+
+# -------------------------
+# FONTE: gama monoenergética ~ Cs-137
+# -------------------------
+s:So/Cs137/Type = "Beam"
+s:So/Cs137/Component = "World"
+s:So/Cs137/BeamParticle = "gamma"
+d:So/Cs137/BeamEnergy = 0.662 MeV
+i:So/Cs137/NumberOfHistoriesInRun = 200000
+
+d:So/Cs137/BeamPositionX = 0.0 mm
+d:So/Cs137/BeamPositionY = 0.0 mm
+d:So/Cs137/BeamPositionZ = -30.0 mm
+
+s:So/Cs137/BeamPositionDistribution = "Flat"
+s:So/Cs137/BeamPositionCutoffShape = "Ellipse"
+d:So/Cs137/BeamPositionCutoffX = 0.25 mm
+d:So/Cs137/BeamPositionCutoffY = 0.25 mm
+s:So/Cs137/BeamAngularDistribution = "None"
+
+# -------------------------
+# CRISTAL GAGG 5x5x10 mm³
+# -------------------------
+s:Ge/Crystal/Parent = "World"
+s:Ge/Crystal/Type = "TsBox"
+s:Ge/Crystal/Material = "GAGG"
+
+d:Ge/Crystal/HLX = 2.5 mm
+d:Ge/Crystal/HLY = 2.5 mm
+d:Ge/Crystal/HLZ = 5.0 mm
+
+d:Ge/Crystal/TransX = 0.0 mm
+d:Ge/Crystal/TransY = 0.0 mm
+d:Ge/Crystal/TransZ = 0.0 mm
+
+# -------------------------
+# GAP / camada de acoplamento
+# -------------------------
+s:Ge/Grease/Parent = "World"
+s:Ge/Grease/Type = "TsBox"
+s:Ge/Grease/Material = "G4_Galactic"
+
+d:Ge/Grease/HLX = 2.5 mm
+d:Ge/Grease/HLY = 2.5 mm
+d:Ge/Grease/HLZ = 0.05 mm
+
+d:Ge/Grease/TransX = 0.0 mm
+d:Ge/Grease/TransY = 0.0 mm
+d:Ge/Grease/TransZ = 5.05 mm
+
+# -------------------------
+# SiPM (somente geometria)
+# -------------------------
+s:Ge/SiPM/Parent = "World"
+s:Ge/SiPM/Type = "TsBox"
+s:Ge/SiPM/Material = "G4_Si"
+
+d:Ge/SiPM/HLX = 2.5 mm
+d:Ge/SiPM/HLY = 2.5 mm
+d:Ge/SiPM/HLZ = 0.15 mm
+
+d:Ge/SiPM/TransX = 0.0 mm
+d:Ge/SiPM/TransY = 0.0 mm
+d:Ge/SiPM/TransZ = 5.25 mm
+
+# -------------------------
+# FÍSICA
+# -------------------------
+s:Ph/ListName = "Default"
+s:Ph/Default/Type = "Geant4_Modular"
+sv:Ph/Default/Modules = 1 "g4em-standard_opt3"
+
+# =========================================================
+# SCORER 1: ENERGIA TOTAL DEPOSITADA NO CRISTAL
+# =========================================================
+s:Sc/EdepCrystalTotal/Quantity = "EnergyDeposit"
+s:Sc/EdepCrystalTotal/Component = "Crystal"
+s:Sc/EdepCrystalTotal/OutputType = "csv"
+s:Sc/EdepCrystalTotal/IfOutputFileAlreadyExists = "Overwrite"
+sv:Sc/EdepCrystalTotal/Report = 1 "Sum"
+
+# =========================================================
+# SCORER 2: HISTOGRAMA NATIVO DE DEPÓSITO
+# ATENÇÃO: isto NÃO é energia por evento.
+# Serve apenas para inspeção do depósito em passos.
+# =========================================================
+s:Sc/EdepCrystalSpectrum/Quantity = "EnergyDeposit"
+s:Sc/EdepCrystalSpectrum/Component = "Crystal"
+s:Sc/EdepCrystalSpectrum/OutputType = "csv"
+s:Sc/EdepCrystalSpectrum/IfOutputFileAlreadyExists = "Overwrite"
+
+i:Sc/EdepCrystalSpectrum/EBins = 200
+d:Sc/EdepCrystalSpectrum/EBinMin = 0.0 MeV
+d:Sc/EdepCrystalSpectrum/EBinMax = 0.7 MeV
+sc:Sc/EdepCrystalSpectrum/EBinEnergy = "PreStep"
+
+sv:Sc/EdepCrystalSpectrum/Report = 2 "Sum" "Count_in_Bin"
