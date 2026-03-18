@@ -42,13 +42,13 @@ d:So/Cs137/BeamPositionX = 0.0 mm
 d:So/Cs137/BeamPositionY = 0.0 mm
 d:So/Cs137/BeamPositionZ = -30.0 mm
 
-s:So/Cs137/BeamPositionDistribution = "Flat"
-s:So/Cs137/BeamPositionCutoffShape = "Ellipse"
-d:So/Cs137/BeamPositionCutoffX = 3 mm
-d:So/Cs137/BeamPositionCutoffY = 3 mm
-s:So/Cs137/BeamAngularDistribution = "Gaussian"
-d:So/Cs137/BeamAngularSpreadX = 5 deg
-d:So/Cs137/BeamAngularSpreadY = 5 deg
+#s:So/Cs137/BeamPositionDistribution = "Flat"
+#s:So/Cs137/BeamPositionCutoffShape = "Ellipse"
+#d:So/Cs137/BeamPositionCutoffX = 3 mm
+#d:So/Cs137/BeamPositionCutoffY = 3 mm
+#s:So/Cs137/BeamAngularDistribution = "Gaussian"
+#d:So/Cs137/BeamAngularSpreadX = 5 deg
+#d:So/Cs137/BeamAngularSpreadY = 5 deg
 
 # -------------------------
 # CRISTAL GAGG 5x5x10 mm³
